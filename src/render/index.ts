@@ -6,7 +6,7 @@
 import type { HudData, RenderOptions, LayoutConfig, LayoutMode } from '../types.js';
 import { DEFAULT_LAYOUT } from '../types.js';
 import { renderHud } from './header.js';
-import { colors, padEnd, visualLength, truncateAnsi } from './colors.js';
+import { colors, truncateAnsi } from './colors.js';
 
 // ANSI escape codes for cursor/screen control
 const CURSOR_HOME = '\x1b[H';
@@ -17,30 +17,6 @@ const HIDE_CURSOR = '\x1b[?25l';
 const SHOW_CURSOR = '\x1b[?25h';
 
 let lastStdoutFrame: string | null = null;
-const STATUS_HINT = 'Ctrl+T: Toggle • Drag: Resize';
-
-function applyStatusHint(lines: string[], width: number): string[] {
-  if (lines.length === 0 || width <= 0) {
-    return lines;
-  }
-
-  const status = colors.dim(STATUS_HINT);
-  const statusLen = visualLength(status);
-  if (statusLen + 1 > width) {
-    return lines;
-  }
-
-  const firstLine = lines[0] ?? '';
-  const firstLen = visualLength(firstLine);
-  if (firstLen + 1 + statusLen > width) {
-    return lines;
-  }
-
-  const padded = padEnd(firstLine, width - statusLen - 1);
-  const nextLines = [...lines];
-  nextLines[0] = `${padded} ${status}`;
-  return nextLines;
-}
 
 /**
  * Get terminal width
@@ -140,10 +116,7 @@ export function render(data: HudData): void {
   };
   
   const maxLines = Math.max(1, height);
-  const lines = truncateLines(
-    applyStatusHint(limitLines(renderHud(data, options), maxLines), width),
-    width
-  );
+  const lines = truncateLines(limitLines(renderHud(data, options), maxLines), width);
   
   // Move cursor to home position and render
   process.stdout.write(CURSOR_HOME);
@@ -223,10 +196,7 @@ export function renderToStdout(data: HudData): void {
   };
   
   const maxLines = Math.max(1, height);
-  const lines = truncateLines(
-    applyStatusHint(limitLines(renderHud(data, options), maxLines), width),
-    width
-  );
+  const lines = truncateLines(limitLines(renderHud(data, options), maxLines), width);
 
   const frame = `${width}x${height}\n${lines.join('\n')}`;
   if (frame === lastStdoutFrame) {

@@ -115,14 +115,10 @@ function renderExpandedLayout(data: HudData, layout: LayoutConfig, width: number
     lines.push(sessionLine);
   }
   
-  // Row 5+: Activity lines (tools, todos) - but exclude token and session lines since we rendered them above
+  // Row 5+: Activity lines (tools, todos), excluding rows rendered explicitly above.
   const activityLines = collectActivityLines(data);
-  // Filter out token and session lines since we already rendered them
-  const filteredActivityLines = activityLines.filter(line => {
-    // Skip if it starts with token/ctx indicators or Dir:/Session: 
-    // (we already rendered these explicitly above)
-    return !line.includes('Tokens:') && !line.includes('Dir: ') && !line.includes('Session: ');
-  });
+  const alreadyRendered = new Set([tokenLine, sessionLine].filter(Boolean));
+  const filteredActivityLines = activityLines.filter(line => !alreadyRendered.has(line));
   lines.push(...filteredActivityLines);
   
   return lines;

@@ -103,7 +103,7 @@ codex-hud --self-check       # 環境診断を実行
 | 変数 | デフォルト | 説明 |
 |------|------------|------|
 | `CODEX_HUD_POSITION` | `bottom` | HUD ペインの位置（`top` / `bottom`） |
-| `CODEX_HUD_HEIGHT` | ターミナルの 1/6 | HUD の高さ（行数） |
+| `CODEX_HUD_HEIGHT` | `5` | HUD の高さ（行数） |
 | `CODEX_HUD_MOUSE` | `1` | マウス/トラックパッドスクロールを有効化 |
 
 <details>

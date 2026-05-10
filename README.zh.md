@@ -59,20 +59,30 @@ codex
 ## HUD 显示了什么？
 
 ```
-[gpt-5.4 xhigh] █████░░░░ 45% │ my-project git:(main ●) │ 12m
+my-project git:(main *) ⏱️ 12m
 mode: dev | 3 extensions | 2 AGENTS.md | Approval: on-req | Sandbox: ws-write
-Tokens: 50.2K (in: 35.0K, cache: 5.0K, out: 15.2K) | Ctx: ████░░░░ 45% (50.2K/128K) ↻2
-Dir: ~/my-project | Session: abc12345 | CLI: 0.4.2
+tok 50.2K | (in: 35.0K, cache: 5.0K, out: 15.2K) | ctx ████░░░░░░ 45% 62.2K/128K | ↻2
+sid abc12345 | cli 0.4.2 | provider OpenAI
 ◐ Edit: file.ts | ✓ Read ×3
 ```
 
 | 行 | 内容 |
 |----|------|
-| **标题** | 模型 + effort、context 进度条、项目名、git 分支、会话计时 |
+| **标题** | 项目名、git 分支、会话计时 |
 | **环境** | 配置数、工作模式、MCP 服务器、指令文件、审批/沙箱策略 |
 | **Tokens** | 总 token（输入/cache/输出拆分）、context 填充率、compact 次数 |
-| **Session** | 工作目录、Session ID、CLI 版本 |
+| **Session** | Session ID、CLI 版本、provider |
 | **活动** | 正在执行的工具调用、最近工具调用历史 |
+
+### 个人紧凑布局
+
+这个 fork 针对日常使用做了几处压缩和美化：
+
+- HUD 默认高度固定为 `5` 行，不再按终端高度自动扩到 7 行或更多。
+- 多行布局不再重复显示模型/effort 和工作目录，因为 Codex 主界面本身已经显示这些信息。
+- Context window 只在 token 行显示一次，避免顶部和 token 行重复。
+- Token、context、session 标签缩短为 `tok`、`ctx`、`sid`、`cli`，窄 pane 下更不容易截断。
+- 移除了第一行常驻的 `Ctrl+T` / resize 提示，减少视觉噪音。
 
 ## 使用方法
 
@@ -103,7 +113,7 @@ codex-hud --self-check       # 运行环境诊断
 | 变量 | 默认值 | 说明 |
 |------|--------|------|
 | `CODEX_HUD_POSITION` | `bottom` | HUD 面板位置（`top` / `bottom`） |
-| `CODEX_HUD_HEIGHT` | 终端 1/6 | HUD 高度（行数） |
+| `CODEX_HUD_HEIGHT` | `5` | HUD 高度（行数） |
 | `CODEX_HUD_MOUSE` | `1` | 启用鼠标/触控板滚动 |
 
 <details>

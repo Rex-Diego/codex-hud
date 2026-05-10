@@ -59,20 +59,30 @@ After the first install, these are available in your shell:
 ## What's on the HUD?
 
 ```
-[gpt-5.4 xhigh] █████░░░░ 45% │ my-project git:(main ●) │ 12m
+my-project git:(main *) ⏱️ 12m
 mode: dev | 3 extensions | 2 AGENTS.md | Approval: on-req | Sandbox: ws-write
-Tokens: 50.2K (in: 35.0K, cache: 5.0K, out: 15.2K) | Ctx: ████░░░░ 45% (50.2K/128K) ↻2
-Dir: ~/my-project | Session: abc12345 | CLI: 0.4.2
+tok 50.2K | (in: 35.0K, cache: 5.0K, out: 15.2K) | ctx ████░░░░░░ 45% 62.2K/128K | ↻2
+sid abc12345 | cli 0.4.2 | provider OpenAI
 ◐ Edit: file.ts | ✓ Read ×3
 ```
 
 | Line | Shows |
 |------|-------|
-| **Header** | Model + effort, context bar, project, git branch, session timer |
+| **Header** | Project, git branch, session timer |
 | **Environment** | Config count, work mode, MCP servers, instruction files, approval/sandbox |
 | **Tokens** | Total tokens with input/cache/output breakdown, context fill, compact count |
-| **Session** | Working directory, session ID, CLI version |
+| **Session** | Session ID, CLI version, provider |
 | **Activity** | Running tool call, recent tool history |
+
+### Personal Compact Layout
+
+This fork keeps the HUD compact for daily use:
+
+- The default HUD pane height is fixed at `5` lines instead of scaling with terminal height.
+- The expanded layout avoids repeating model/effort and working directory because Codex already shows them.
+- Context usage appears only once, on the token line.
+- Token/context/session labels are shortened (`tok`, `ctx`, `sid`, `cli`) so the HUD fits better in narrow panes.
+- The persistent `Ctrl+T` / resize hint is removed from the first line to reduce visual noise.
 
 ## Usage
 
@@ -102,7 +112,7 @@ codex-hud --self-check       # Run diagnostics
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `CODEX_HUD_POSITION` | `bottom` | HUD pane position (`top` / `bottom`) |
-| `CODEX_HUD_HEIGHT` | 1/6 terminal | HUD height in lines |
+| `CODEX_HUD_HEIGHT` | `5` | HUD height in lines |
 | `CODEX_HUD_MOUSE` | `1` | Enable mouse/trackpad scrolling |
 
 <details>

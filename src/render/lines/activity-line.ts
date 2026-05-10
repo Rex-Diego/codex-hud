@@ -201,7 +201,7 @@ export function renderTokenLine(data: HudData): string | null {
     const cachedInput = usage.cached_input_tokens ?? 0;
     const nonCachedInput = Math.max(0, (usage.input_tokens ?? 0) - cachedInput);
 
-    parts.push(theme.tokenCount(`Tokens: ${formatTokenCount(usage.total_tokens ?? 0)}`));
+    parts.push(colors.dim('tok ') + theme.tokenCount(formatTokenCount(usage.total_tokens ?? 0)));
 
     const breakdown: string[] = [];
     if (nonCachedInput > 0) {
@@ -222,15 +222,13 @@ export function renderTokenLine(data: HudData): string | null {
   // Context usage section with progress bar
   const ctx = data.contextUsage;
   if (ctx) {
-    const bar = renderContextProgressBar(ctx.percent, 12);
+    const bar = renderContextProgressBar(ctx.percent, 10);
     const percentDisplay = ctx.percent >= 85 
       ? theme.error(`${ctx.percent}%`)
       : ctx.percent >= 70 
         ? theme.warning(`${ctx.percent}%`) 
         : theme.success(`${ctx.percent}%`);
-    parts.push(
-      `Ctx: ${bar} ${percentDisplay} (${formatTokenCount(ctx.used)}/${formatTokenCount(ctx.total)})`
-    );
+    parts.push(`ctx ${bar} ${percentDisplay} ${formatTokenCount(ctx.used)}/${formatTokenCount(ctx.total)}`);
     // Show compact count if any compactions occurred
     if (ctx.compactCount > 0) {
       parts.push(colors.dim(`${icons.refresh}${ctx.compactCount}`));
@@ -239,15 +237,13 @@ export function renderTokenLine(data: HudData): string | null {
     const total = data.tokenUsage.model_context_window;
     const totalTokens = usage.total_tokens ?? 0;
     const percent = total > 0 ? Math.round((totalTokens / total) * 100) : 0;
-    const bar = renderContextProgressBar(percent, 12);
+    const bar = renderContextProgressBar(percent, 10);
     const percentDisplay = percent >= 85 
       ? theme.error(`${percent}%`)
       : percent >= 70 
         ? theme.warning(`${percent}%`) 
         : theme.success(`${percent}%`);
-    parts.push(
-      `Ctx: ${bar} ${percentDisplay} (${formatTokenCount(totalTokens)}/${formatTokenCount(total)})`
-    );
+    parts.push(`ctx ${bar} ${percentDisplay} ${formatTokenCount(totalTokens)}/${formatTokenCount(total)}`);
   }
 
   return parts.length > 0 ? parts.join(' | ') : null;
@@ -260,17 +256,17 @@ export function renderSessionDetailLine(data: HudData): string | null {
 
   // Show session ID if available
   if (session?.id) {
-    parts.push(colors.dim('Session: ') + theme.info(formatSessionId(session.id)));
+    parts.push(colors.dim('sid ') + theme.info(formatSessionId(session.id)));
   }
   
   // Show CLI version if available
   if (session?.cliVersion) {
-    parts.push(colors.dim('CLI: ') + theme.value(session.cliVersion));
+    parts.push(colors.dim('cli ') + theme.value(session.cliVersion));
   }
   
   // Show model provider if available
   if (session?.modelProvider) {
-    parts.push(colors.dim('Provider: ') + theme.value(session.modelProvider));
+    parts.push(colors.dim('provider ') + theme.value(session.modelProvider));
   }
 
   return parts.length > 0 ? parts.join(` ${colors.dim(icons.pipe)} `) : null;

@@ -5,7 +5,7 @@
 #
 # Environment variables:
 #   CODEX_HUD_POSITION - HUD pane position: bottom (default), top
-#   CODEX_HUD_HEIGHT   - HUD pane height in lines (default: 1/6 of terminal height, min 5)
+#   CODEX_HUD_HEIGHT   - HUD pane height in lines (default: 5)
 #   CODEX_HUD_HEIGHT_AUTO - Auto-adjust HUD height based on pane width (default: 0)
 #   CODEX_HUD_HEIGHT_MIN - Minimum HUD height when auto-adjusting (default: CODEX_HUD_HEIGHT)
 #   CODEX_HUD_HEIGHT_MAX - Maximum HUD height when auto-adjusting (default: 12)
@@ -466,7 +466,6 @@ cleanup() {
 resolve_hud_height() {
     local term_height="$1"
     local requested="$HUD_HEIGHT"
-    local min_height=5
     local max_height=$((term_height - 1))
     if [[ "$max_height" -lt 1 ]]; then
         max_height=1
@@ -488,10 +487,7 @@ resolve_hud_height() {
         return 0
     fi
     
-    local desired=$((term_height / 6))
-    if [[ "$desired" -lt "$min_height" ]]; then
-        desired="$min_height"
-    fi
+    local desired=5
     if [[ "$desired" -gt "$max_height" ]]; then
         desired="$max_height"
     fi
@@ -676,7 +672,7 @@ Options:
 
 Environment Variables:
   CODEX_HUD_POSITION  HUD pane position: bottom (default), top
-  CODEX_HUD_HEIGHT    HUD pane height in lines (default: 1/6 of terminal height, min 5)
+  CODEX_HUD_HEIGHT    HUD pane height in lines (default: 5)
   CODEX_HUD_HEIGHT_AUTO Auto-adjust HUD height based on pane width (default: 0)
   CODEX_HUD_HEIGHT_MIN Minimum HUD height when auto-adjusting (default: CODEX_HUD_HEIGHT)
   CODEX_HUD_HEIGHT_MAX Maximum HUD height when auto-adjusting (default: 12)

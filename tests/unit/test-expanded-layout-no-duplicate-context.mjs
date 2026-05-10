@@ -80,7 +80,7 @@ const plain = lines.map(stripAnsi).join('\n');
 assert.match(plain, /everything-claude-code git:\(main\)/, 'expanded header should keep project and git');
 assert.doesNotMatch(plain, /\[gpt-5\.5 xhigh\]/, 'expanded layout should not repeat model identity');
 assert.doesNotMatch(plain, /Dir: /, 'expanded layout should not repeat the working directory');
-assert.equal((plain.match(/Ctx:/g) ?? []).length, 1, 'context should be shown only on the token line');
+assert.equal((plain.match(/\bctx\b/g) ?? []).length, 1, 'context should be shown only on the token line');
 assert.equal((plain.match(/92%/g) ?? []).length, 1, 'context percent should not be duplicated');
 
 console.log('test-expanded-layout-no-duplicate-context: PASS');

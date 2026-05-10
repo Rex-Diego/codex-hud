@@ -103,7 +103,7 @@ codex-hud --self-check       # 환경 진단 실행
 | 변수 | 기본값 | 설명 |
 |------|--------|------|
 | `CODEX_HUD_POSITION` | `bottom` | HUD 패인 위치 (`top` / `bottom`) |
-| `CODEX_HUD_HEIGHT` | 터미널의 1/6 | HUD 높이 (행 수) |
+| `CODEX_HUD_HEIGHT` | `5` | HUD 높이 (행 수) |
 | `CODEX_HUD_MOUSE` | `1` | 마우스/트랙패드 스크롤 활성화 |
 
 <details>
